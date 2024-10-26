@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom"
+import { usarUsuario } from "../../components/userContext/UserContext"
 
-function Home(){    
+function Home(){
+    const { usuario } = usarUsuario()
+    
     return (
         <>
             <div className="grid grid-cols-1 gap-1 flex-auto justify-center">
@@ -14,8 +17,12 @@ function Home(){
                         </div>
 
                         <div className="bg-gradient-to-b from-blue-600 to-blue-500 rounded-md drop-shadow p-6 place-content-center grid grid-cols-1 gap-6">
-                            <Link to="/wallet" className="text-white text-4xl bg-blue-700 rounded-md drop-shadow p-6 hover:bg-blue-800 hover:text-gray-200">Cadastrar Ativo</Link>
-                            <Link to="/users" className="text-white text-4xl bg-blue-700 rounded-md drop-shadow p-6 hover:bg-blue-800 hover:text-gray-200">Criar Usuário</Link>
+                            {usuario != null &&
+                                <Link to="/wallet" className="text-white text-4xl bg-blue-700 rounded-md drop-shadow p-6 hover:bg-blue-800 hover:text-gray-200">Cadastrar Ativo</Link>
+                            }
+                            {usuario == null &&
+                                <Link to="/register" className="text-white text-4xl bg-blue-700 rounded-md drop-shadow p-6 hover:bg-blue-800 hover:text-gray-200">Cadastrar Usuário</Link>
+                            }
                         </div>
                     </div>
                 </div>

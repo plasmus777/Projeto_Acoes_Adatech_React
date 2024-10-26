@@ -1,7 +1,10 @@
-import { BiBarChartAlt, BiHelpCircle, BiHome, BiSolidBarChartAlt2, BiSolidBarChartSquare, BiUserCircle, BiWallet } from "react-icons/bi"
+import { BiBarChartAlt, BiHelpCircle, BiHome, BiLogIn, BiLogOut, BiSolidBarChartAlt2, BiSolidBarChartSquare, BiUserCircle, BiWallet } from "react-icons/bi"
 import { Link } from "react-router-dom"
+import { usarUsuario } from "../userContext/UserContext";
 
 function NavBar() {
+    const { usuario, autenticarUsuario, desconectarUsuario } = usarUsuario();
+
     return (
         <>
             <div className="flex justify-between space-x-8 px-6 py-4 grow bg-gradient-to-r from-blue-700 to-blue-500 drop-shadow">
@@ -27,10 +30,17 @@ function NavBar() {
                             <p className="text-2xl text-white">Sobre</p>
                         </Link>
                     </div>
-                    <Link to="/users" className="flex justify-between space-x-1 items-center">
-                        <BiUserCircle size="24" color="white" />
-                        <p className="text-2xl text-white">Login</p>
-                    </Link>
+                    {usuario != null ? (
+                        <button onClick={() => desconectarUsuario()} className="flex justify-between space-x-1 items-center">
+                            <BiLogOut size="24" color="white" />
+                            <p className="text-2xl text-white">Sair</p>
+                        </button>
+                    ) : (
+                        <Link to="/login" className="flex justify-between space-x-1 items-center">
+                            <BiLogIn size="24" color="white" />
+                            <p className="text-2xl text-white">Entrar</p>
+                        </Link>
+                    )}
                 </div>
             </div>
         </>
