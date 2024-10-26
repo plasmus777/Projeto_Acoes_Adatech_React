@@ -1,20 +1,25 @@
 import { useState } from "react";
 import Relatorio from "../../model/Relatorio";
 import axios from "axios";
+import { BiLoaderAlt } from "react-icons/bi";
 
 function Stocks(){
     const [codigo, setCodigo] = useState("");
     const [resultado, setResultado] = useState<Relatorio | null>(null);
     const [erro, setErro] = useState("");
+    const [carregando, setCarregando] = useState(false)
 
     const handleSearch = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
+            setCarregando(true)
             setErro("");
             const resposta = await axios.get<Relatorio>(`http://localhost:8080/api/v1/relatorios/${codigo}`);
             setResultado(resposta.data);
+            setCarregando(false)
         } catch (err) {
             setErro("Erro ao buscar dados da API. Tente novamente.");
+            setCarregando(false)
         }
     };
 
@@ -33,13 +38,13 @@ function Stocks(){
                                 value={codigo}
                                 onChange={(e) => setCodigo(e.target.value)}
                                 placeholder="Digite o código do ativo..."
-                                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 text-center"
                             />
                             <button
                                 type="submit"
-                                className="bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-800 hover:text-gray-200"
+                                className="flex items-center justify-center bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-800 hover:text-gray-200"
                             >
-                            Buscar
+                                {carregando ? (<BiLoaderAlt size={32} className="animate-spin"/>) : (<p>Buscar</p>)}
                             </button>
                         </form>
 
