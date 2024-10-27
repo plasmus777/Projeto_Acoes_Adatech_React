@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Relatorio from "../../model/Relatorio";
 import axios from "axios";
-import { BiLoaderAlt } from "react-icons/bi";
+import { BiLoaderAlt, BiSearch } from "react-icons/bi";
 
 function Stocks(){
     const [codigo, setCodigo] = useState("");
@@ -28,7 +28,10 @@ function Stocks(){
             <div className="grid grid-cols-1 gap-1 flex-auto justify-center">
                 <div className="flex justify-center space-x-8 px-6 py-16">
                     <div className="bg-gradient-to-b from-blue-600 to-blue-500 rounded-md drop-shadow p-6">
-                        <p className="text-white text-4xl text-center">Buscar Ativos Financeiros</p>
+                        <div className="flex justify-center items-center space-x-4">
+                            <BiSearch size={32} color="white" />
+                            <p className="text-white text-4xl text-center">Buscar Ativos Financeiros</p>
+                        </div>
                         <div className="m-4 border-2 border-dashed border-blue-400"/>
                         <p className="text-white text-2xl mt-12">Por favor, digite o código do ativo a ser pesquisado:</p>
 

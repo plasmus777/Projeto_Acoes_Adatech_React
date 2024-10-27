@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { usarUsuario } from "../../components/userContext/UserContext";
 import { BiLoaderAlt } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
     const { usuario, autenticarUsuario } = usarUsuario();
@@ -11,13 +11,16 @@ export default function Login() {
     const [resultado, setResultado] = useState<string>("");
     const [carregando, setCarregando] = useState(false)
 
+    const navigate = useNavigate();
+
     async function login(e: React.FormEvent) {
         e.preventDefault();
         try {
             setResultado("")
             setCarregando(true)
-            autenticarUsuario(email, senha);
+            autenticarUsuario(email, senha)
             setCarregando(false)
+            navigate("/")
             if(usuario != null){
                 setResultado("Usuário conectado com sucesso.")
             } else {

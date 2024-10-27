@@ -2,14 +2,45 @@ import { Link } from "react-router-dom"
 import { usarUsuario } from "../../components/userContext/UserContext"
 import { BiDownArrow, BiLogIn, BiUpArrow, BiUserPlus } from "react-icons/bi"
 import StockCard from "../../components/stockCard/StockCard"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import axios from "axios"
+import RendaFixa from "../../model/RendaFixa"
+import FundoImobiliario from "../../model/FundoImobiliario"
+import Acao from "../../model/Acao"
 
 export default function Wallet() {
-    const { usuario } = usarUsuario()
+    const { usuario, autenticarUsuario } = usarUsuario()
 
     const [acoes, setAcoes] = useState(false)
     const [fundosImobiliarios, setFundosImobiliarios] = useState(false)
     const [rendasFixas, setRendasFixas] = useState(false)
+
+    const [listaAcoes, setListaAcoes] = useState<Acao[]>([]);
+    const [listaFundosImobiliarios, setListaFundosImobiliarios] = useState<FundoImobiliario[]>([]);
+    const [listaRendasFixas, setListaRendasFixas] = useState<RendaFixa[]>([]);
+
+    const handleDelete = async (id: number, tipo: number) => {
+        try {
+            let response;
+            switch (tipo) {
+                case 1:
+                    response = await axios.delete(`http://localhost:8080/api/v1/acoes/${id}`);
+                    setListaAcoes((prev) => prev.filter((acao) => acao.id !== id));
+                    break;
+                case 2:
+                    response = await axios.delete(`http://localhost:8080/api/v1/fundosimobiliarios/${id}`);
+                    setListaFundosImobiliarios((prev) => prev.filter((fii) => fii.id !== id));
+                    break;
+                case 3:
+                    response = await axios.delete(`http://localhost:8080/api/v1/rendasfixas/${id}`);
+                    setListaRendasFixas((prev) => prev.filter((renda) => renda.id !== id));
+                    break;
+            }
+            if (usuario != null) autenticarUsuario(usuario.email, usuario.senha);
+        } catch (error) {
+            console.error("Erro ao apagar ativo financeiro:", error);
+        }
+    };
 
     function toggleAcoes() {
         if (acoes) {
@@ -69,6 +100,7 @@ export default function Wallet() {
                                     {usuario.acoesFavoritas.map((acao, indice) => (
                                         <StockCard
                                             tipo={1}
+                                            id={acao.id}
                                             codigo={acao.codigoNegociacao}
                                             nome={acao.nome}
                                             precoAtual={acao.precoAtual}
@@ -79,7 +111,8 @@ export default function Wallet() {
                                             quantidade={acao.quantidade}
                                             rendimentoMensal={0}
                                             taxaRetorno={0}
-                                            dataVencimento={""} />
+                                            dataVencimento={""}
+                                            handleDelete={() => handleDelete(acao.id, 1)} />
                                     ))}
                                 </div>}
                             </div>
@@ -94,6 +127,7 @@ export default function Wallet() {
                                     {usuario.fundosImobiliariosFavoritos.map((fundoImobiliario, indice) => (
                                         <StockCard
                                             tipo={1}
+                                            id={fundoImobiliario.id}
                                             codigo={fundoImobiliario.codigoFii}
                                             nome={fundoImobiliario.nome}
                                             precoAtual={fundoImobiliario.precoAtual}
@@ -104,7 +138,8 @@ export default function Wallet() {
                                             quantidade={0}
                                             rendimentoMensal={fundoImobiliario.rendimentoMensal}
                                             taxaRetorno={0}
-                                            dataVencimento={""} />
+                                            dataVencimento={""}
+                                            handleDelete={() => handleDelete(fundoImobiliario.id, 1)} />
                                     ))}
                                 </div>}
 
@@ -120,6 +155,7 @@ export default function Wallet() {
                                     {usuario.rendasFixasFavoritas.map((rendaFixa, indice) => (
                                         <StockCard
                                             tipo={1}
+                                            id={rendaFixa.id}
                                             codigo={rendaFixa.codigo}
                                             nome={rendaFixa.nome}
                                             precoAtual={rendaFixa.precoAtual}
@@ -130,7 +166,8 @@ export default function Wallet() {
                                             quantidade={0}
                                             rendimentoMensal={0}
                                             taxaRetorno={rendaFixa.taxaRetorno}
-                                            dataVencimento={rendaFixa.dataVencimento} />
+                                            dataVencimento={rendaFixa.dataVencimento}
+                                            handleDelete={() => handleDelete(rendaFixa.id, 1)} />
                                     ))}
                                 </div>}
                             </div>

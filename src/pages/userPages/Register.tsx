@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { BiLoaderAlt } from "react-icons/bi";
 import { usarUsuario } from "../../components/userContext/UserContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
     const { autenticarUsuario } = usarUsuario();
@@ -11,6 +12,8 @@ export default function Register() {
     const [senha, setSenha] = useState("");
     const [resultado, setResultado] = useState<string>("");
     const [carregando, setCarregando] = useState(false)
+
+    const navigate = useNavigate();
 
     async function cadastrarUsuario(e: React.FormEvent) {
         e.preventDefault();
@@ -22,6 +25,7 @@ export default function Register() {
                 setResultado("Usuário cadastrado com sucesso.")
                 setCarregando(false)
                 autenticarUsuario(email, senha);
+                navigate("/")
             }
         } catch (err) {
             setResultado("Erro ao cadastrar usuário.")

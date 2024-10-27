@@ -22,7 +22,6 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         const response = await axios.get<Usuario>(`http://localhost:8080/api/v1/usuarios/email/${email}`);
         if(response.data.senha == senha){
             setUsuario(response.data);
-            navigate("/");
         } else {
             throw new Error("Credenciais inválidas.");
         }
