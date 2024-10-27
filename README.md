@@ -1,6 +1,6 @@
 ﻿# Projeto_Acoes_Adatech_React
 
-<p>Este projeto é uma etapa extra ao ![Projeto Ações Adatech](https://github.com/plasmus777/Projeto_Acoes_Adatech), trazendo um front-end desenvolvido em React + Typescript + Tailwindcss para lidar o back-end do projeto original.</p>
+Este projeto é uma etapa extra ao ![Projeto Ações Adatech](https://github.com/plasmus777/Projeto_Acoes_Adatech), trazendo um front-end desenvolvido em React + Typescript + Tailwindcss para lidar o back-end do projeto original.
 <p>Abaixo estão algumas imagens do sistema, que exibem algumas das funcionalidades existentes (obs.: as imagens podem estar desatualizadas em relação às últimas versões do front-end).</p>
 
 ![Captura de tela 2024-10-26 184421](https://github.com/user-attachments/assets/4b833c2a-adf5-46e0-806b-9e694c2762e0)
