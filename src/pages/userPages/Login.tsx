@@ -52,7 +52,7 @@ export default function Login() {
                         />
                         <button
                             type="submit"
-                            className="flex items-center justify-center bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-800 hover:text-gray-200"
+                            className="flex items-center justify-center bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-800 hover:text-gray-200 drop-shadow"
                         >
                             {carregando ? (<BiLoaderAlt size={32} className="animate-spin" />) : (<p>Entrar</p>)}
                         </button>

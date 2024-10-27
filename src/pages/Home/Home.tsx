@@ -18,10 +18,10 @@ function Home(){
 
                         <div className="bg-gradient-to-b from-blue-600 to-blue-500 rounded-md drop-shadow p-6 place-content-center grid grid-cols-1 gap-6">
                             {usuario != null &&
-                                <Link to="/wallet" className="text-white text-4xl bg-blue-700 rounded-md drop-shadow p-6 hover:bg-blue-800 hover:text-gray-200">Cadastrar Ativo</Link>
+                                <Link to="/wallet" className="text-white text-4xl bg-blue-700 rounded-md drop-shadow p-6 hover:bg-blue-800 hover:text-gray-200 drop-shadow">Cadastrar Ativo</Link>
                             }
                             {usuario == null &&
-                                <Link to="/register" className="text-white text-4xl bg-blue-700 rounded-md drop-shadow p-6 hover:bg-blue-800 hover:text-gray-200">Cadastrar Usuário</Link>
+                                <Link to="/register" className="text-white text-4xl bg-blue-700 rounded-md drop-shadow p-6 hover:bg-blue-800 hover:text-gray-200 drop-shadow">Cadastrar Usuário</Link>
                             }
                         </div>
                     </div>
