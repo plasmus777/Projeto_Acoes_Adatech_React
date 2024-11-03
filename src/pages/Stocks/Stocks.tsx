@@ -264,7 +264,7 @@ function Stocks() {
                     </>)}
 
                     <div className="flex justify-center items-center space-x-16 mt-6">
-                        <button className="flex justify-between space-x-1 items-center bg-green-700 hover:bg-green-800 rounded-md drop-shadow p-4" onClick={() => adicionarParaCarteira(1, informacoes.precoCompra, informacoes.precoMinimo, informacoes.precoMaximo, informacoes.quantidade, informacoes.rendimentoMensal, informacoes.taxaRetorno, informacoes.dataVencimento)}>
+                        <button className="flex justify-between space-x-1 items-center bg-green-700 hover:bg-green-800 rounded-md drop-shadow p-4" onClick={() => adicionarParaCarteira(tipoSelecionado, informacoes.precoCompra, informacoes.precoMinimo, informacoes.precoMaximo, informacoes.quantidade, informacoes.rendimentoMensal, informacoes.taxaRetorno, informacoes.dataVencimento)}>
                             <BsSave size={24} color="white" />
                             <p className="text-white text-xl">Adicionar à carteira</p>
                         </button>
