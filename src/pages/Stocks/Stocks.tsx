@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Relatorio from "../../model/Relatorio";
 import axios from "axios";
 import { BiArrowBack, BiLoaderAlt, BiSearch } from "react-icons/bi";
@@ -48,7 +48,7 @@ function Stocks() {
         try {
             setCarregando(true)
             setErro("");
-            const resposta = await axios.get<Relatorio>(`http://localhost:8080/api/v1/relatorios/${codigo}`);
+            const resposta = await axios.get<Relatorio>(`${import.meta.env.VITE_API_URL}/api/v1/relatorios/${codigo}`);
             setResultado(resposta.data);
             setCarregando(false)
         } catch (err) {
@@ -65,6 +65,17 @@ function Stocks() {
             setPopupAdicionarCarteira(true)
         }
     }
+
+    useEffect(() => {
+        if (resultado) {
+            setInformacoes((prev) => ({
+                ...prev,
+                precoCompra: resultado.precoAtual || prev.precoCompra,
+                precoMinimo: resultado.menorPrecoDiario || prev.precoMinimo,
+                precoMaximo: resultado.maiorPrecoDiario || prev.precoMaximo,
+            }));
+        }
+    }, [resultado]);
 
     async function adicionarParaCarteira(tipo: number, precoCompra: number, precoMinimo: number, precoMaximo: number,
         quantidade: number,
@@ -88,7 +99,7 @@ function Stocks() {
                             precoVenda: (resultado.precoAtual * quantidade),
                             usuarioEmail: usuario.email
                         }
-                        const r1 = await axios.post(`http://localhost:8080/api/v1/acoes`, acao);
+                        const r1 = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/acoes`, acao);
                         console.log(r1.status.toString)
                         break;
                     case 2:
@@ -104,7 +115,7 @@ function Stocks() {
                             precoVenda: (resultado.precoAtual * quantidade),
                             usuarioEmail: usuario.email
                         }
-                        const r2 = await axios.post(`http://localhost:8080/api/v1/fundosimobiliarios`, fundoImobiliario);
+                        const r2 = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/fundosimobiliarios`, fundoImobiliario);
                         console.log(r2.status.toString)
                         break;
                     case 3:
@@ -121,7 +132,7 @@ function Stocks() {
                             precoVenda: (resultado.precoAtual * quantidade),
                             usuarioEmail: usuario.email
                         }
-                        const r3 = await axios.post(`http://localhost:8080/api/v1/rendasfixas`, rendaFixa);
+                        const r3 = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/rendasfixas`, rendaFixa);
                         console.log(r3.status.toString)
                         break;
                     default:
@@ -197,71 +208,77 @@ function Stocks() {
                 <Popup estaAberto={popupAdicionarCarteira} aoFechar={() => setPopupAdicionarCarteira(false)}>
                     <p className="text-black text-xl mt-4">Para adicionar o ativo"{codigo}" à sua carteira, selecione o tipo de ativo e complemente as informações abaixo:</p>
 
-                    <input
-                        name="precoCompra"
-                        type="number"
-                        value={informacoes.precoCompra}
-                        onChange={handleChange}
-                        placeholder="Digite o preço de compra..."
-                        defaultValue={resultado?.precoAtual}
-                        className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 text-center"
-                    />
-                    <input
-                        name="precoMinimo"
-                        type="number"
-                        value={informacoes.precoMinimo}
-                        onChange={handleChange}
-                        placeholder="Digite o preço mínimo..."
-                        defaultValue={resultado?.precoAtual}
-                        className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 text-center"
-                    />
-                    <input
-                        name="precoMaximo"
-                        type="number"
-                        value={informacoes.precoMaximo}
-                        onChange={handleChange}
-                        placeholder="Digite o preço máximo..."
-                        defaultValue={resultado?.precoAtual}
-                        className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 text-center"
-                    />
-                    <select value={tipoSelecionado} onChange={handleSeletor} defaultValue={1}>
-                        <option value={1}>Ação</option>
-                        <option value={2}>Fundo Imobiliário</option>
-                        <option value={3}>Renda Fixa</option>
-                    </select>
-                    {tipoSelecionado == 1 && <input
-                        name="quantidade"
-                        type="number"
-                        value={informacoes.quantidade}
-                        onChange={handleChange}
-                        placeholder="Digite a quantidade de ações..."
-                        className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 text-center"
-                    />}
-                    {tipoSelecionado == 2 && <input
-                        name="rendimentoMensal"
-                        type="number"
-                        value={informacoes.rendimentoMensal}
-                        onChange={handleChange}
-                        placeholder="Digite o rendimento mensal..."
-                        className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 text-center"
-                    />}
-                    {tipoSelecionado == 3 && (<><input
-                        name="taxaRetorno"
-                        type="number"
-                        value={informacoes.taxaRetorno}
-                        onChange={handleChange}
-                        placeholder="Digite a taxa de retorno..."
-                        className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 text-center"
-                    />
+                    <form className="grid grid-cols-1 gap-1 flex-auto justify-center m-4">
+                        <div className="grid grid-cols-2 gap-1 flex-auto justify-center text-center items-center">
+                            <p className="text-xl">Preço de Compra: </p>
+                            <input
+                                name="precoCompra"
+                                type="number"
+                                value={informacoes.precoCompra}
+                                onChange={handleChange}
+                                placeholder="Digite o preço de compra..."
+                                defaultValue={resultado?.precoAtual}
+                                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 text-center"
+                            />
+                        </div>
                         <input
-                            name="dataVencimento"
-                            type="date"
-                            value={informacoes.dataVencimento}
+                            name="precoMinimo"
+                            type="number"
+                            value={informacoes.precoMinimo}
                             onChange={handleChange}
-                            placeholder="Digite a data de vencimento..."
+                            placeholder="Digite o preço mínimo..."
+                            defaultValue={resultado?.precoAtual}
                             className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 text-center"
                         />
-                    </>)}
+                        <input
+                            name="precoMaximo"
+                            type="number"
+                            value={informacoes.precoMaximo}
+                            onChange={handleChange}
+                            placeholder="Digite o preço máximo..."
+                            defaultValue={resultado?.precoAtual}
+                            className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 text-center"
+                        />
+                        <select value={tipoSelecionado} onChange={handleSeletor} defaultValue={1}>
+                            <option value={1}>Ação</option>
+                            <option value={2}>Fundo Imobiliário</option>
+                            <option value={3}>Renda Fixa</option>
+                        </select>
+                        {tipoSelecionado == 1 && <input
+                            name="quantidade"
+                            type="number"
+                            value={informacoes.quantidade}
+                            onChange={handleChange}
+                            placeholder="Digite a quantidade de ações..."
+                            className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 text-center"
+                        />}
+                        {tipoSelecionado == 2 && <input
+                            name="rendimentoMensal"
+                            type="number"
+                            value={informacoes.rendimentoMensal}
+                            onChange={handleChange}
+                            placeholder="Digite o rendimento mensal..."
+                            className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 text-center"
+                        />}
+                        {tipoSelecionado == 3 && (<>
+                        <input
+                            name="taxaRetorno"
+                            type="number"
+                            value={informacoes.taxaRetorno}
+                            onChange={handleChange}
+                            placeholder="Digite a taxa de retorno..."
+                            className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 text-center"
+                        />
+                            <input
+                                name="dataVencimento"
+                                type="date"
+                                value={informacoes.dataVencimento}
+                                onChange={handleChange}
+                                placeholder="Digite a data de vencimento..."
+                                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 text-center"
+                            />
+                        </>)}
+                    </form>
 
                     <div className="flex justify-center items-center space-x-16 mt-6">
                         <button className="flex justify-between space-x-1 items-center bg-green-700 hover:bg-green-800 rounded-md drop-shadow p-4" onClick={() => adicionarParaCarteira(tipoSelecionado, informacoes.precoCompra, informacoes.precoMinimo, informacoes.precoMaximo, informacoes.quantidade, informacoes.rendimentoMensal, informacoes.taxaRetorno, informacoes.dataVencimento)}>
