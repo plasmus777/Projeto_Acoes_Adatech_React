@@ -20,7 +20,7 @@ export default function Register() {
         try {
             setResultado("")
             setCarregando(true)
-            const resposta = await axios.post(`http://localhost:8080/api/v1/usuarios`, { nome, email, senha });
+            const resposta = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/usuarios`, { nome, email, senha });
             if (resposta.status === 201) {
                 setResultado("Usuário cadastrado com sucesso.")
                 setCarregando(false)

@@ -19,7 +19,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     const autenticarUsuario = async (email:string, senha:string) => {
       try {
-        const response = await axios.get<Usuario>(`http://localhost:8080/api/v1/usuarios/email/${email}`);
+        const response = await axios.get<Usuario>(`${import.meta.env.VITE_API_URL}/api/v1/usuarios/email/${email}`);
         if(response.data.senha == senha){
             setUsuario(response.data);
         } else {

@@ -24,15 +24,15 @@ export default function Wallet() {
             let response;
             switch (tipo) {
                 case 1:
-                    response = await axios.delete(`http://localhost:8080/api/v1/acoes/${id}`);
+                    response = await axios.delete(`${import.meta.env.VITE_API_URL}/api/v1/acoes/${id}`);
                     setListaAcoes((prev) => prev.filter((acao) => acao.id !== id));
                     break;
                 case 2:
-                    response = await axios.delete(`http://localhost:8080/api/v1/fundosimobiliarios/${id}`);
+                    response = await axios.delete(`${import.meta.env.VITE_API_URL}/api/v1/fundosimobiliarios/${id}`);
                     setListaFundosImobiliarios((prev) => prev.filter((fii) => fii.id !== id));
                     break;
                 case 3:
-                    response = await axios.delete(`http://localhost:8080/api/v1/rendasfixas/${id}`);
+                    response = await axios.delete(`${import.meta.env.VITE_API_URL}/api/v1/rendasfixas/${id}`);
                     setListaRendasFixas((prev) => prev.filter((renda) => renda.id !== id));
                     break;
             }
