@@ -29,6 +29,7 @@ export default function StockCard({ tipo, id, codigo, nome, precoAtual, precoCom
     const abrirPopupDeletar = () => setPopupDeletarAberto(true);
     const fecharPopupDeletar = () => setPopupDeletarAberto(false);
 
+    /*
     const [popupRelatorioAberto, setPopupRelatorioAberto] = useState(false);
     const abrirPopupRelatorio = () => setPopupRelatorioAberto(true);
     const fecharPopupRelatorio = () => setPopupRelatorioAberto(false);
@@ -36,6 +37,7 @@ export default function StockCard({ tipo, id, codigo, nome, precoAtual, precoCom
     const [popupEditarAberto, setPopupEditarAberto] = useState(false);
     const abrirPopupEditar = () => setPopupEditarAberto(true);
     const fecharPopupEditar = () => setPopupEditarAberto(false);
+    */
 
     return (
         <div>
