@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 import { usarUsuario } from "../../components/userContext/UserContext"
 import { BiDownArrow, BiLogIn, BiUpArrow, BiUserPlus } from "react-icons/bi"
 import StockCard from "../../components/stockCard/StockCard"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import axios from "axios"
 import RendaFixa from "../../model/RendaFixa"
 import FundoImobiliario from "../../model/FundoImobiliario"
@@ -15,9 +15,11 @@ export default function Wallet() {
     const [fundosImobiliarios, setFundosImobiliarios] = useState(false)
     const [rendasFixas, setRendasFixas] = useState(false)
 
+    /*
     const [listaAcoes, setListaAcoes] = useState<Acao[]>([]);
     const [listaFundosImobiliarios, setListaFundosImobiliarios] = useState<FundoImobiliario[]>([]);
     const [listaRendasFixas, setListaRendasFixas] = useState<RendaFixa[]>([]);
+    */
 
     const handleDelete = async (id: number, tipo: number) => {
         try {
@@ -25,15 +27,15 @@ export default function Wallet() {
             switch (tipo) {
                 case 1:
                     response = await axios.delete(`${import.meta.env.VITE_API_URL}/api/v1/acoes/${id}`);
-                    setListaAcoes((prev) => prev.filter((acao) => acao.id !== id));
+                    //setListaAcoes((prev) => prev.filter((acao) => acao.id !== id));
                     break;
                 case 2:
                     response = await axios.delete(`${import.meta.env.VITE_API_URL}/api/v1/fundosimobiliarios/${id}`);
-                    setListaFundosImobiliarios((prev) => prev.filter((fii) => fii.id !== id));
+                    //setListaFundosImobiliarios((prev) => prev.filter((fii) => fii.id !== id));
                     break;
                 case 3:
                     response = await axios.delete(`${import.meta.env.VITE_API_URL}/api/v1/rendasfixas/${id}`);
-                    setListaRendasFixas((prev) => prev.filter((renda) => renda.id !== id));
+                    //setListaRendasFixas((prev) => prev.filter((renda) => renda.id !== id));
                     break;
             }
             if (usuario != null) autenticarUsuario(usuario.email, usuario.senha);
@@ -97,7 +99,7 @@ export default function Wallet() {
                                         <BiDownArrow size={32} color="white" />}
                                 </button>
                                 {acoes && <div className="grid grid-cols-5 gap-4 bg-white rounded-md drop-shadow p-6 mt-6">
-                                    {usuario.acoesFavoritas.map((acao, indice) => (
+                                    {usuario.acoesFavoritas.map((acao) => (
                                         <StockCard
                                             tipo={1}
                                             id={acao.id}
@@ -124,7 +126,7 @@ export default function Wallet() {
                                         <BiDownArrow size={32} color="white" />}
                                 </button>
                                 {fundosImobiliarios && <div className="grid grid-cols-5 gap-4 bg-white rounded-md drop-shadow p-6 mt-6">
-                                    {usuario.fundosImobiliariosFavoritos.map((fundoImobiliario, indice) => (
+                                    {usuario.fundosImobiliariosFavoritos.map((fundoImobiliario) => (
                                         <StockCard
                                             tipo={1}
                                             id={fundoImobiliario.id}
@@ -152,7 +154,7 @@ export default function Wallet() {
                                         <BiDownArrow size={32} color="white" />}
                                 </button>
                                 {rendasFixas && <div className="grid grid-cols-5 gap-4 bg-white rounded-md drop-shadow p-6 mt-6">
-                                    {usuario.rendasFixasFavoritas.map((rendaFixa, indice) => (
+                                    {usuario.rendasFixasFavoritas.map((rendaFixa) => (
                                         <StockCard
                                             tipo={1}
                                             id={rendaFixa.id}

@@ -1,9 +1,9 @@
-import { BiBarChartAlt, BiHelpCircle, BiHome, BiLogIn, BiLogOut, BiSolidBarChartAlt2, BiSolidBarChartSquare, BiUserCircle, BiWallet } from "react-icons/bi"
+import { BiBarChartAlt, BiHelpCircle, BiHome, BiLogIn, BiLogOut, BiWallet } from "react-icons/bi"
 import { Link } from "react-router-dom"
 import { usarUsuario } from "../userContext/UserContext";
 
 function NavBar() {
-    const { usuario, autenticarUsuario, desconectarUsuario } = usarUsuario();
+    const { usuario, desconectarUsuario } = usarUsuario();
 
     return (
         <>
