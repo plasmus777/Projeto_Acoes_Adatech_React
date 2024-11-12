@@ -4,12 +4,11 @@ import { BiDownArrow, BiLogIn, BiUpArrow, BiUserPlus } from "react-icons/bi"
 import StockCard from "../../components/stockCard/StockCard"
 import { useState } from "react"
 import axios from "axios"
-import RendaFixa from "../../model/RendaFixa"
-import FundoImobiliario from "../../model/FundoImobiliario"
-import Acao from "../../model/Acao"
 
 export default function Wallet() {
     const { usuario, autenticarUsuario } = usarUsuario()
+
+    const [response, setResponse] = useState("")
 
     const [acoes, setAcoes] = useState(false)
     const [fundosImobiliarios, setFundosImobiliarios] = useState(false)
@@ -23,18 +22,17 @@ export default function Wallet() {
 
     const handleDelete = async (id: number, tipo: number) => {
         try {
-            let response;
             switch (tipo) {
                 case 1:
-                    response = await axios.delete(`${import.meta.env.VITE_API_URL}/api/v1/acoes/${id}`);
+                    setResponse(await axios.delete(`${import.meta.env.VITE_API_URL}/api/v1/acoes/${id}`));
                     //setListaAcoes((prev) => prev.filter((acao) => acao.id !== id));
                     break;
                 case 2:
-                    response = await axios.delete(`${import.meta.env.VITE_API_URL}/api/v1/fundosimobiliarios/${id}`);
+                    setResponse(await axios.delete(`${import.meta.env.VITE_API_URL}/api/v1/fundosimobiliarios/${id}`));
                     //setListaFundosImobiliarios((prev) => prev.filter((fii) => fii.id !== id));
                     break;
                 case 3:
-                    response = await axios.delete(`${import.meta.env.VITE_API_URL}/api/v1/rendasfixas/${id}`);
+                    setResponse(await axios.delete(`${import.meta.env.VITE_API_URL}/api/v1/rendasfixas/${id}`));
                     //setListaRendasFixas((prev) => prev.filter((renda) => renda.id !== id));
                     break;
             }
@@ -177,6 +175,8 @@ export default function Wallet() {
                     )
                 }
             </div>
+            {response != null && response != "" &&
+                <p className="text-white text-2xl text-center">{response}</p>}
         </div>
     )
 }
